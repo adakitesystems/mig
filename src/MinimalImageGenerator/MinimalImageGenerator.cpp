@@ -20,7 +20,7 @@ namespace MIG
 		_pixels = new Color[pixelsLength];
 		for (uint16_t y = 0; y < _height; ++y) {
 			for (uint16_t x = 0; x < _width; ++x) {
-				setPixel(x, y, 0, 0, 0);
+				drawPixel(x, y, 0, 0, 0);
 			}
 		}
 	}
@@ -30,12 +30,12 @@ namespace MIG
 		delete[] _pixels;
 	}
 
-	void Image::setPixel(const XY &xy, const Color &color)
+	void Image::drawPixel(const XY &xy, const Color &color)
 	{
-		setPixel(xy.x, xy.y, color.r, color.g, color.b);
+		drawPixel(xy.x, xy.y, color.r, color.g, color.b);
 	}
 
-	void Image::setPixel(const uint16_t x, const uint16_t y, const unsigned char red, const unsigned char green, const unsigned char blue)
+	void Image::drawPixel(const uint16_t x, const uint16_t y, const unsigned char red, const unsigned char green, const unsigned char blue)
 	{
 		const auto index = calculateIndex(x, y);
 		auto &pixel = _pixels[index];
@@ -44,7 +44,7 @@ namespace MIG
 		pixel.b = blue;
 	}
 
-	void Image::drawBox(const XY &topLeft, const XY &bottomRight, const Color &color, const FillMode fillMode)
+	void Image::drawRectangle(const XY &topLeft, const XY &bottomRight, const Color &color, const FillMode fillMode)
 	{
 		const auto topLeftX = topLeft.x;
 		const auto topLeftY = topLeft.y;
@@ -53,28 +53,28 @@ namespace MIG
 
 		/* top line */
 		for (uint16_t x = topLeftX; x <= bottomRightX; ++x) {
-			setPixel(x, topLeftY, color.r, color.g, color.b);
+			drawPixel(x, topLeftY, color.r, color.g, color.b);
 		}
 
 		/* left line */
 		for (uint16_t y = topLeftY; y <= bottomRightY; ++y) {
-			setPixel(topLeftX, y, color.r, color.g, color.b);
+			drawPixel(topLeftX, y, color.r, color.g, color.b);
 		}
 
 		/* bottom line */
 		for (uint16_t x = topLeftX; x <= bottomRightX; ++x) {
-			setPixel(x, bottomRightY, color.r, color.g, color.b);
+			drawPixel(x, bottomRightY, color.r, color.g, color.b);
 		}
 
 		/* right line */
 		for (uint16_t y = topLeftY; y <= bottomRightY; ++y) {
-			setPixel(bottomRightX, y, color.r, color.g, color.b);
+			drawPixel(bottomRightX, y, color.r, color.g, color.b);
 		}
 
 		if (fillMode == FillMode::SOLID) {
 			for (uint16_t y = topLeftY + 1; y <= bottomRightY - 1; ++y) {
 				for (uint16_t x = topLeftX + 1; x <= bottomRightX - 1; ++x) {
-					setPixel(x, y, color.r, color.g, color.b);
+					drawPixel(x, y, color.r, color.g, color.b);
 				}
 			}
 		}
@@ -83,17 +83,6 @@ namespace MIG
 	void Image::writeToPPM(const std::string &filename) const
 	{
 		const size_t pixelsLength = _width * _height;
-		unsigned char *pixels = new unsigned char[pixelsLength * 3 + 1];
-
-		size_t index = 0;
-		for (uint16_t y = 0; y < _height; ++y) {
-			for (uint16_t x = 0; x < _width; ++x) {
-				const auto &pixel = _pixels[calculateIndex(x, y)];
-				pixels[index++] = pixel.r;
-				pixels[index++] = pixel.g;
-				pixels[index++] = pixel.b;
-			}
-		}
 
 		std::ofstream fout;
 		fout.open(filename.c_str());
@@ -119,33 +108,47 @@ namespace MIG
 			fout.flush();
 			fout.close();
 		}
-
-		delete[] pixels;
 	}
 
 	void Image::writeToBMP(const std::string &filename) const
 	{
-		const size_t pixelsLength = _width * _height;
-		unsigned char *pixels = new unsigned char[pixelsLength * 3];
+		const int comp = 3;
 
-		size_t index = 0;
-		for (uint16_t y = 0; y < _height; ++y) {
-			for (uint16_t x = 0; x < _width; ++x) {
-				const auto &pixel = _pixels[calculateIndex(x, y)];
-				pixels[index++] = pixel.r;
-				pixels[index++] = pixel.g;
-				pixels[index++] = pixel.b;
-			}
-		}
+		unsigned char *pixelData = new unsigned char[_width * _height * comp];
+		copyPixelsTo(pixelData);
 
-		stbi_write_bmp(filename.c_str(), _width, _height, 3, pixels);
+		stbi_write_bmp(filename.c_str(), _width, _height, comp, pixelData);
 
-		delete[] pixels;
+		delete[] pixelData;
+	}
+
+	void Image::writeToPNG(const std::string &filename) const
+	{
+		const int comp = 3;
+
+		unsigned char *pixelData = new unsigned char[_width * _height * comp];
+		copyPixelsTo(pixelData);
+
+		stbi_write_png(filename.c_str(), _width, _height, 3, pixelData, _width * comp);
+
+		delete[] pixelData;
 	}
 
 	size_t Image::calculateIndex(const uint16_t x, const uint16_t y) const
 	{
-		const size_t index = _width * y + x;
-		return index;
+		return size_t(_width * y + x);
+	}
+
+	void Image::copyPixelsTo(unsigned char *pixelData) const
+	{
+		size_t index = 0;
+		for (uint16_t y = 0; y < _height; ++y) {
+			for (uint16_t x = 0; x < _width; ++x) {
+				const auto &pixel = _pixels[calculateIndex(x, y)];
+				pixelData[index++] = pixel.r;
+				pixelData[index++] = pixel.g;
+				pixelData[index++] = pixel.b;
+			}
+		}
 	}
 }

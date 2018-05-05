@@ -30,13 +30,16 @@ namespace MIG
 		Image(const uint16_t width, const uint16_t height);
 		~Image();
 
-		void setPixel(const XY &xy, const Color &color);
-		void setPixel(const uint16_t x, const uint16_t y, const unsigned char red, const unsigned char green, const unsigned char blue);
+		void drawPixel(const XY &xy, const Color &color);
+		void drawPixel(const uint16_t x, const uint16_t y, const unsigned char red, const unsigned char green, const unsigned char blue);
 
-		void drawBox(const XY &topLeft, const XY &bottomRight, const Color &color, const FillMode fillMode = FillMode::NONE);
+		void drawRectangle(const XY &topLeft, const XY &bottomRight, const Color &color, const FillMode fillMode = FillMode::NONE);
+
+
 
 		void writeToPPM(const std::string &filename) const;
 		void writeToBMP(const std::string &filename) const;
+		void writeToPNG(const std::string &filename) const;
 
 	private:
 		const uint16_t _width;
@@ -44,6 +47,8 @@ namespace MIG
 		Color *_pixels;
 
 		size_t calculateIndex(const uint16_t x, const uint16_t y) const;
+
+		void copyPixelsTo(unsigned char *pixelData) const;
 	};
 }
 
