@@ -4,5 +4,27 @@
     <Filter Include="src">
       <UniqueIdentifier>{ff10628d-dafc-4fd7-ad0e-de2832520ab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\MinimalImageGenerator">
+      <UniqueIdentifier>{25803cdd-a3dd-4a64-9fbd-31016aeb53e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\stb_image_write">
+      <UniqueIdentifier>{a3e074f6-1401-4387-8869-c18a5654a652}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\MinimalImageGenerator\MinimalImageGenerator.cpp">
+      <Filter>src\MinimalImageGenerator</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\MinimalImageGenerator\MinimalImageGenerator.h">
+      <Filter>src\MinimalImageGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\stb_image\stb_image_write.h">
+      <Filter>src\stb_image_write</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\stb_image\stb_image.h">
+      <Filter>src\stb_image_write</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
