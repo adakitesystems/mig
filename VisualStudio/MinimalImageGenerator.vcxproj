@@ -19,12 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\MinimalImageGenerator\MinimalImageGenerator.cpp" />
+    <ClCompile Include="..\src\mig\mig.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\MinimalImageGenerator\MinimalImageGenerator.h" />
-    <ClInclude Include="..\src\MinimalImageGenerator\TypeSafeEnum.h" />
-    <ClInclude Include="..\src\stb_image\stb_image.h" />
+    <ClInclude Include="..\src\mig\mig.h" />
+    <ClInclude Include="..\src\mig\TypeSafeEnum.h" />
     <ClInclude Include="..\src\stb_image\stb_image_write.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -2,32 +2,29 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{ff10628d-dafc-4fd7-ad0e-de2832520ab2}</UniqueIdentifier>
+      <UniqueIdentifier>{820e4109-34e2-4061-81f9-055ddf9f7b1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\MinimalImageGenerator">
-      <UniqueIdentifier>{25803cdd-a3dd-4a64-9fbd-31016aeb53e1}</UniqueIdentifier>
+    <Filter Include="src\mig">
+      <UniqueIdentifier>{d239b665-53f3-4dc8-95c1-a318dffc910a}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\stb_image_write">
-      <UniqueIdentifier>{a3e074f6-1401-4387-8869-c18a5654a652}</UniqueIdentifier>
+      <UniqueIdentifier>{c8d38358-2cff-40e4-8a9e-1cbf15c27db9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\MinimalImageGenerator\MinimalImageGenerator.cpp">
-      <Filter>src\MinimalImageGenerator</Filter>
+    <ClCompile Include="..\src\mig\mig.cpp">
+      <Filter>src\mig</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\MinimalImageGenerator\MinimalImageGenerator.h">
-      <Filter>src\MinimalImageGenerator</Filter>
+    <ClInclude Include="..\src\mig\mig.h">
+      <Filter>src\mig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mig\TypeSafeEnum.h">
+      <Filter>src\mig</Filter>
     </ClInclude>
     <ClInclude Include="..\src\stb_image\stb_image_write.h">
       <Filter>src\stb_image_write</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\stb_image\stb_image.h">
-      <Filter>src\stb_image_write</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\MinimalImageGenerator\TypeSafeEnum.h">
-      <Filter>src\MinimalImageGenerator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#include "MinimalImageGenerator.h"
+#include "mig.h"
 
 #include <cstdio>
 #include <fstream>
