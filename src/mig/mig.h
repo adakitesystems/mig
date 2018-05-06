@@ -1,5 +1,5 @@
-#ifndef __MINIMAL_IMAGE_GENERATOR__5BE397E7C7867C3914F689451B69451A____
-#define __MINIMAL_IMAGE_GENERATOR__5BE397E7C7867C3914F689451B69451A____
+#ifndef __MIG_H__5BE397E7C7867C3914F689451B69451A____
+#define __MIG_H__5BE397E7C7867C3914F689451B69451A____
 #pragma once
 
 #include <cstdint>
@@ -39,6 +39,11 @@ namespace MIG
 		void drawPixel(const uint16_t x, const uint16_t y, const unsigned char red, const unsigned char green, const unsigned char blue);
 
 		void drawRectangle(const XY &topLeft, const XY &bottomRight, const RGB &color, const FillMode fillMode = FillMode::NONE);
+		void drawCircle(const XY &center, const int radius, const RGB &color, const FillMode fillMode = FillMode::NONE);
+		void drawLine(const XY &a, const XY &b, const RGB &rgb);
+
+		bool isValid(const XY &xy) const;
+		bool isValid(const int x, const int y) const;
 
 		void writeToPPM(const std::string &filename) const;
 		void writeToBMP(const std::string &filename) const;
@@ -52,7 +57,17 @@ namespace MIG
 		size_t calculateIndex(const uint16_t x, const uint16_t y) const;
 
 		void copyPixelsTo(unsigned char *pixelData) const;
+
+		void drawLineLow(const int x0, const int y0, const int x1, const int y1, const RGB &rgb);
+		void drawLineHigh(const int x0, const int y0, const int x1, const int y1, const RGB &rgb);
 	};
+
+	namespace Util
+	{
+		static double distance(const XY &a, const XY &b);
+		static double norm(const int x, const int y);
+		static int squaredNorm(const int x, const int y);
+	}
 }
 
 #endif
