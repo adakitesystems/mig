@@ -17,7 +17,7 @@ namespace MIG
 	{
 		const size_t pixelsLength = size_t(uint16_t(_width) * uint16_t(_height));
 
-		_pixels = new Color[pixelsLength];
+		_pixels = new RGB[pixelsLength];
 		for (uint16_t y = 0; y < _height; ++y) {
 			for (uint16_t x = 0; x < _width; ++x) {
 				drawPixel(x, y, 0, 0, 0);
@@ -30,9 +30,9 @@ namespace MIG
 		delete[] _pixels;
 	}
 
-	void Image::drawPixel(const XY &xy, const Color &color)
+	void Image::drawPixel(const XY &xy, const RGB &rgb)
 	{
-		drawPixel(xy.x, xy.y, color.r, color.g, color.b);
+		drawPixel(xy.x, xy.y, rgb.r, rgb.g, rgb.b);
 	}
 
 	void Image::drawPixel(const uint16_t x, const uint16_t y, const unsigned char red, const unsigned char green, const unsigned char blue)
@@ -44,37 +44,17 @@ namespace MIG
 		pixel.b = blue;
 	}
 
-	void Image::drawRectangle(const XY &topLeft, const XY &bottomRight, const Color &color, const FillMode fillMode)
+	void Image::drawRectangle(const XY &topLeft, const XY &bottomRight, const RGB &rgb, const FillMode fillMode)
 	{
 		const auto topLeftX = topLeft.x;
 		const auto topLeftY = topLeft.y;
 		const auto bottomRightX = bottomRight.x;
 		const auto bottomRightY = bottomRight.y;
 
-		/* top line */
-		for (uint16_t x = topLeftX; x <= bottomRightX; ++x) {
-			drawPixel(x, topLeftY, color.r, color.g, color.b);
-		}
-
-		/* left line */
 		for (uint16_t y = topLeftY; y <= bottomRightY; ++y) {
-			drawPixel(topLeftX, y, color.r, color.g, color.b);
-		}
-
-		/* bottom line */
-		for (uint16_t x = topLeftX; x <= bottomRightX; ++x) {
-			drawPixel(x, bottomRightY, color.r, color.g, color.b);
-		}
-
-		/* right line */
-		for (uint16_t y = topLeftY; y <= bottomRightY; ++y) {
-			drawPixel(bottomRightX, y, color.r, color.g, color.b);
-		}
-
-		if (fillMode == FillMode::SOLID) {
-			for (uint16_t y = topLeftY + 1; y <= bottomRightY - 1; ++y) {
-				for (uint16_t x = topLeftX + 1; x <= bottomRightX - 1; ++x) {
-					drawPixel(x, y, color.r, color.g, color.b);
+			for (uint16_t x = topLeftX; x <= bottomRightX; ++x) {
+				if (fillMode == FillMode::SOLID || x == topLeftX || x == bottomRightX|| y == topLeftY || y == bottomRightY) {
+					drawPixel(x, y, rgb.r, rgb.g, rgb.b);
 				}
 			}
 		}

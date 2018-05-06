@@ -26,5 +26,8 @@
     <ClInclude Include="..\src\stb_image\stb_image.h">
       <Filter>src\stb_image_write</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\MinimalImageGenerator\TypeSafeEnum.h">
+      <Filter>src\MinimalImageGenerator</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
