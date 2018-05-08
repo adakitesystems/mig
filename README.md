@@ -1,4 +1,4 @@
-# MIG (MinimalImageGenerator)
+# MIG (Minimal Image Generator)
 
 This library is intended to be used for drawing basic shapes onto an image in memory which can then be saved as an image file.
 
