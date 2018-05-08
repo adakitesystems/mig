@@ -17,10 +17,8 @@ namespace MIG
 	MigImage::MigImage(const int width, const int height)
 		: _width(width)
 		, _height(height)
+		, _pixels(std::make_unique<RGB[]>(size_t(width) * size_t(height)))
 	{
-		const auto pixelsLength = size_t(_width) * size_t(_height);
-
-		_pixels = std::unique_ptr<RGB[]>(new RGB[pixelsLength]());
 		for (int y = 0; y < _height; ++y) {
 			for (int x = 0; x < _width; ++x) {
 				drawPixel(x, y, 0, 0, 0);
@@ -100,7 +98,7 @@ namespace MIG
 	void MigImage::writeToBMP(const std::string &filename) const
 	{
 		const size_t pixelDataLength = _width * _height * RGB::comp;
-		std::unique_ptr<unsigned char[]> pixelData(new unsigned char[pixelDataLength]());
+		auto pixelData(std::make_unique<unsigned char[]>(pixelDataLength));
 		copyRgbPixelsTo(pixelData);
 
 		stbi_write_bmp(filename.c_str(), _width, _height, RGB::comp, pixelData.get());
@@ -109,7 +107,7 @@ namespace MIG
 	void MigImage::writeToPNG(const std::string &filename) const
 	{
 		const size_t pixelDataLength = _width * _height * RGB::comp;
-		std::unique_ptr<unsigned char[]> pixelData(new unsigned char[pixelDataLength]());
+		auto pixelData(std::make_unique<unsigned char[]>(pixelDataLength));
 		copyRgbPixelsTo(pixelData);
 
 		const int strideInBytes = _width * RGB::comp;
