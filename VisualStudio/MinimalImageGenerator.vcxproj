@@ -20,10 +20,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\mig\mig.cpp" />
+    <ClCompile Include="..\src\mig\shape\mig_circle.cpp" />
+    <ClCompile Include="..\src\mig\shape\mig_line.cpp" />
+    <ClCompile Include="..\src\mig\shape\mig_rectangle.cpp" />
+    <ClCompile Include="..\src\mig\shape\mig_util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\mig\mig.h" />
-    <ClInclude Include="..\src\mig\TypeSafeEnum.h" />
+    <ClInclude Include="..\src\mig\mig_rgb.h" />
+    <ClInclude Include="..\src\mig\mig_xy.h" />
+    <ClInclude Include="..\src\mig\shape\mig_circle.h" />
+    <ClInclude Include="..\src\mig\shape\mig_line.h" />
+    <ClInclude Include="..\src\mig\shape\mig_rectangle.h" />
+    <ClInclude Include="..\src\mig\shape\mig_shape.h" />
+    <ClInclude Include="..\src\mig\shape\mig_util.h" />
     <ClInclude Include="..\src\stb_image\stb_image_write.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -108,6 +118,7 @@
       <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
