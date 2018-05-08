@@ -4,58 +4,26 @@ namespace MIG
 {
 	namespace Shape
 	{
-		Rectangle::Rectangle(const XY &topLeft, const int width, const int height, const RGB &rgb, const FillStyle fillStyle)
-			: _topLeft(topLeft)
-			, _width(width)
-			, _height(height)
-			, _rgb(rgb)
-			, _fillStyle(fillStyle)
+		Rectangle::Rectangle(const XY &newTopLeft, const int newWidth, const int newHeight, const RGB &newRgb, const FillStyle newFillStyle)
+			: topLeft(newTopLeft)
+			, width(newWidth)
+			, height(newHeight)
+			, rgb(newRgb)
+			, fillStyle(newFillStyle)
 		{}
 
 		void Rectangle::drawTo(MigImage &migImage)
 		{
-			for (int y = getTopLeft().y; y <= getBottomRight().y; ++y) {
-				for (int x = getTopLeft().x; x <= getBottomRight().x; ++x) {
-					const bool isBorderPixel = x == getTopLeft().x || x == getBottomRight().x || y == getTopLeft().y || y == getBottomRight().y;
-					if ((_fillStyle == FillStyle::SOLID || isBorderPixel) && migImage.isValid(x, y)) {
-						migImage.drawPixel(x, y, _rgb.r, _rgb.g, _rgb.b);
+			const auto bottomRight = XY(topLeft.x + width, topLeft.y + height);
+
+			for (int y = topLeft.y; y <= bottomRight.y; ++y) {
+				for (int x = topLeft.x; x <= bottomRight.x; ++x) {
+					const bool isBorderPixel = x == topLeft.x || x == bottomRight.x || y == topLeft.y || y == bottomRight.y;
+					if ((fillStyle == FillStyle::SOLID || isBorderPixel) && migImage.isValid(x, y)) {
+						migImage.drawPixel(x, y, rgb.r, rgb.g, rgb.b);
 					}
 				}
 			}
-		}
-
-		XY Rectangle::getTopLeft() const
-		{
-			return _topLeft;
-		}
-
-		XY Rectangle::getBottomRight() const
-		{
-			const auto topLeft = getTopLeft();
-			const int bottomRightX = topLeft.x + _width;
-			const int bottomRightY = topLeft.y + _height;
-
-			return XY(bottomRightX, bottomRightY);
-		}
-
-		int Rectangle::getWidth() const
-		{
-			return _width;
-		}
-
-		int Rectangle::getHeight() const
-		{
-			return _height;
-		}
-
-		RGB Rectangle::getRGB() const
-		{
-			return _rgb;
-		}
-
-		Rectangle::FillStyle Rectangle::getFillStyle() const
-		{
-			return _fillStyle;
 		}
 	}
 }

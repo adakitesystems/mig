@@ -6,52 +6,32 @@ namespace MIG
 {
 	namespace Shape
 	{
-		Circle::Circle(const XY &center, const int radius, const RGB &rgb, const FillStyle fillMode)
-			: _center(center)
-			, _radius(radius)
-			, _rgb(rgb)
-			, _fillStyle(fillMode)
+		Circle::Circle(const XY &newCenter, const int newRadius, const RGB &newRgb, const FillStyle newFillStyle)
+			: center(newCenter)
+			, radius(newRadius)
+			, rgb(newRgb)
+			, fillStyle(newFillStyle)
 		{}
 
 		void Circle::drawTo(MigImage &migImage)
 		{
-			const auto leftX = getCenter().x - getRadius();
-			const auto rightX = getCenter().x + getRadius();
+			const auto leftX = center.x - radius;
+			const auto rightX = center.x + radius;
 
-			const auto topY = getCenter().y - getRadius();
-			const auto bottomY = getCenter().y + getRadius();
+			const auto topY = center.y - radius;
+			const auto bottomY = center.y + radius;
 
 			for (int y = topY; y <= bottomY; ++y) {
 				for (int x = leftX; x <= rightX; ++x) {
 					const auto &xy = XY(x, y);
-					if (Util::distance(xy, getCenter()) <= getRadius()) {
-						const bool isBorderPixel = Util::distance(xy, getCenter()) >= getRadius() - 1;
-						if ((getFillStyle() == FillStyle::SOLID || isBorderPixel) && migImage.isValid(x, y)) {
-							migImage.drawPixel(x, y, getRGB().r, getRGB().g, getRGB().b);
+					if (Util::distance(xy, center) <= radius) {
+						const bool isBorderPixel = Util::distance(xy, center) >= radius - 1;
+						if ((fillStyle == FillStyle::SOLID || isBorderPixel) && migImage.isValid(x, y)) {
+							migImage.drawPixel(x, y, rgb.r, rgb.g, rgb.b);
 						}
 					}
 				}
 			}
-		}
-
-		XY Circle::getCenter() const
-		{
-			return _center;
-		}
-
-		int Circle::getRadius() const
-		{
-			return _radius;
-		}
-
-		RGB Circle::getRGB() const
-		{
-			return _rgb;
-		}
-
-		Circle::FillStyle Circle::getFillStyle() const
-		{
-			return _fillStyle;
 		}
 	}
 }

@@ -16,6 +16,9 @@ namespace MIG
 		MigImage(const int width, const int height);
 		~MigImage();
 
+		int getWidth() const;
+		int getHeight() const;
+
 		void drawPixel(const XY &xy, const RGB &rgb);
 		void drawPixel(const int x, const int y, const unsigned char red, const unsigned char green, const unsigned char blue);
 

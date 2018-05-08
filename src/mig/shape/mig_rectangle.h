@@ -19,19 +19,11 @@ namespace MIG
 
 			virtual void drawTo(MigImage &migImage) override;
 
-			XY getTopLeft() const;
-			XY getBottomRight() const;
-			int getWidth() const;
-			int getHeight() const;
-			RGB getRGB() const;
-			FillStyle getFillStyle() const;
-
-		private:
-			const XY _topLeft;
-			const int _width;
-			const int _height;
-			const RGB _rgb;
-			const FillStyle _fillStyle;
+			XY topLeft;
+			int width;
+			int height;
+			RGB rgb;
+			FillStyle fillStyle;
 		};
 	}
 }

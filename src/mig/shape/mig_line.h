@@ -17,18 +17,13 @@ namespace MIG
 
 			virtual void drawTo(MigImage &migImage) override;
 
-			XY getA() const;
-			XY getB() const;
-			RGB getRGB() const;
+			XY a;
+			XY b;
+			RGB rgb;
 
 		private:
 			void drawLineLow(MigImage &migImage, const int x0, const int y0, const int x1, const int y1);
 			void drawLineHigh(MigImage &migImage, const int x0, const int y0, const int x1, const int y1);
-
-			const XY _a;
-			const XY _b;
-			const RGB _rgb;
-
 		};
 	}
 }

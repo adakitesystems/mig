@@ -34,6 +34,16 @@ namespace MIG
 		delete[] _pixels;
 	}
 
+	int MigImage::getWidth() const
+	{
+		return _width;
+	}
+
+	int MigImage::getHeight() const
+	{
+		return _height;
+	}
+
 	void MigImage::drawPixel(const XY &xy, const RGB &rgb)
 	{
 		drawPixel(xy.x, xy.y, rgb.r, rgb.g, rgb.b);

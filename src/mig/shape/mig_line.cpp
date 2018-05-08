@@ -4,34 +4,19 @@ namespace MIG
 {
 	namespace Shape
 	{
-		Line::Line(const XY &a, const XY &b, const RGB &rgb)
-			: _a(a)
-			, _b(b)
-			, _rgb(rgb)
+		Line::Line(const XY &newA, const XY &newB, const RGB &newRgb)
+			: a(newA)
+			, b(newB)
+			, rgb(newRgb)
 		{}
-
-		XY Line::getA() const
-		{
-			return _a;
-		}
-
-		XY Line::getB() const
-		{
-			return _b;
-		}
-
-		RGB Line::getRGB() const
-		{
-			return _rgb;
-		}
 
 		// https://en.wikipedia.org/wiki/Bresenham's_line_algorithm#All_cases
 		void Line::drawTo(MigImage &migImage)
 		{
-			const auto x0 = getA().x;
-			const auto y0 = getA().y;
-			const auto x1 = getB().x;
-			const auto y1 = getB().y;
+			const auto x0 = a.x;
+			const auto y0 = a.y;
+			const auto x1 = b.x;
+			const auto y1 = b.y;
 
 			if (std::abs(y1 - y0) < std::abs(x1 - x0)) {
 				if (x0 > x1) {
@@ -67,7 +52,7 @@ namespace MIG
 
 			for (int x = x0; x <= x1; ++x) {
 				if (migImage.isValid(x, y)) {
-					migImage.drawPixel(x, y, getRGB().r, getRGB().g, getRGB().b);
+					migImage.drawPixel(x, y, rgb.r, rgb.g, rgb.b);
 					if (d > 0) {
 						y += yi;
 						d -= 2 * dx;
@@ -93,7 +78,7 @@ namespace MIG
 
 			for (int y = y0; y <= y1; ++y) {
 				if (migImage.isValid(x, y)) {
-					migImage.drawPixel(x, y, getRGB().r, getRGB().g, getRGB().b);
+					migImage.drawPixel(x, y, rgb.r, rgb.g, rgb.b);
 					if (d > 0) {
 						x += xi;
 						d -= 2 * dy;
