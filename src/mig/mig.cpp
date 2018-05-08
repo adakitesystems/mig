@@ -15,31 +15,31 @@
 namespace MIG
 {
 
-	Image::Image(const uint16_t width, const uint16_t height)
+	MigImage::MigImage(const int width, const int height)
 		: _width(width)
 		, _height(height)
 	{
-		const size_t pixelsLength = size_t(uint16_t(_width) * uint16_t(_height));
+		const auto pixelsLength = size_t(_width) * size_t(_height);
 
 		_pixels = new RGB[pixelsLength];
-		for (uint16_t y = 0; y < _height; ++y) {
-			for (uint16_t x = 0; x < _width; ++x) {
+		for (int y = 0; y < _height; ++y) {
+			for (int x = 0; x < _width; ++x) {
 				drawPixel(x, y, 0, 0, 0);
 			}
 		}
 	}
 
-	Image::~Image()
+	MigImage::~MigImage()
 	{
 		delete[] _pixels;
 	}
 
-	void Image::drawPixel(const XY &xy, const RGB &rgb)
+	void MigImage::drawPixel(const XY &xy, const RGB &rgb)
 	{
 		drawPixel(xy.x, xy.y, rgb.r, rgb.g, rgb.b);
 	}
 
-	void Image::drawPixel(const uint16_t x, const uint16_t y, const unsigned char red, const unsigned char green, const unsigned char blue)
+	void MigImage::drawPixel(const int x, const int y, const unsigned char red, const unsigned char green, const unsigned char blue)
 	{
 		if (!isValid(x, y)) {
 			return;
@@ -52,7 +52,7 @@ namespace MIG
 		pixel.b = blue;
 	}
 
-	void Image::drawRectangle(const XY &topLeft, const XY &bottomRight, const RGB &rgb, const FillMode fillMode)
+	void MigImage::drawRectangle(const XY &topLeft, const XY &bottomRight, const RGB &rgb, const FillMode fillMode)
 	{
 		for (uint16_t y = topLeft.y; y <= bottomRight.y; ++y) {
 			for (uint16_t x = topLeft.x; x <= bottomRight.x; ++x) {
@@ -64,10 +64,16 @@ namespace MIG
 		}
 	}
 
-	void Image::drawCircle(const XY &center, const int radius, const RGB &rgb, const FillMode fillMode)
+	void MigImage::drawCircle(const XY &center, const int radius, const RGB &rgb, const FillMode fillMode)
 	{
-		for (int y = center.y - radius; y <= center.y + radius; ++y) {
-			for (int x = center.x - radius; x <= center.x + radius; ++x) {
+		const auto leftX = center.x - radius;
+		const auto rightX = center.x + radius;
+
+		const auto topY = center.y - radius;
+		const auto bottomY = center.y + radius;
+
+		for (int y = topY; y <= bottomY; ++y) {
+			for (int x = leftX; x <= rightX; ++x) {
 				const auto &xy = XY(x, y);
 				if (Util::distance(xy, center) <= radius) {
 					const bool isBorderPixel = Util::distance(xy, center) >= radius - 1;
@@ -80,7 +86,7 @@ namespace MIG
 	}
 
 	// https://en.wikipedia.org/wiki/Bresenham's_line_algorithm#All_cases
-	void Image::drawLine(const XY &a, const XY &b, const RGB &rgb)
+	void MigImage::drawLine(const XY &a, const XY &b, const RGB &rgb)
 	{
 		const auto x0 = a.x;
 		const auto y0 = a.y;
@@ -104,90 +110,8 @@ namespace MIG
 			}
 		}
 	}
-	
-	bool Image::isValid(const XY &xy) const
-	{
-		return isValid(xy.x, xy.y);
-	}
 
-	bool Image::isValid(const int x, const int y) const
-	{
-		return (x >= 0 && x < _width && y >= 0 && y < _height);
-	}
-
-	void Image::writeToPPM(const std::string &filename) const
-	{
-		const size_t pixelsLength = _width * _height;
-
-		std::ofstream fout;
-		fout.open(filename.c_str());
-		if (fout) {
-			std::ostringstream ss;
-
-			ss << "P3 " << _width << " " << _height << " 255 ";
-			for (size_t i = 0; i < pixelsLength; ++i) {
-				const auto &pixel = _pixels[i];
-
-				char buffer[100];
-				memset(buffer, 0, 100);
-				snprintf(buffer, 100, "%d %d %d ", pixel.r, pixel.g, pixel.b);
-
-				ss << buffer;
-
-				if ((i + 1) % _width == 0) {
-					ss << '\n';
-				}
-			}
-
-			fout << ss.str();
-			fout.flush();
-			fout.close();
-		}
-	}
-
-	void Image::writeToBMP(const std::string &filename) const
-	{
-		const int comp = 3;
-
-		unsigned char *pixelData = new unsigned char[_width * _height * comp];
-		copyPixelsTo(pixelData);
-
-		stbi_write_bmp(filename.c_str(), _width, _height, comp, pixelData);
-
-		delete[] pixelData;
-	}
-
-	void Image::writeToPNG(const std::string &filename) const
-	{
-		const int comp = 3;
-
-		unsigned char *pixelData = new unsigned char[_width * _height * comp];
-		copyPixelsTo(pixelData);
-
-		stbi_write_png(filename.c_str(), _width, _height, 3, pixelData, _width * comp);
-
-		delete[] pixelData;
-	}
-
-	size_t Image::calculateIndex(const uint16_t x, const uint16_t y) const
-	{
-		return size_t(_width * y + x);
-	}
-
-	void Image::copyPixelsTo(unsigned char *pixelData) const
-	{
-		size_t index = 0;
-		for (uint16_t y = 0; y < _height; ++y) {
-			for (uint16_t x = 0; x < _width; ++x) {
-				const auto &pixel = _pixels[calculateIndex(x, y)];
-				pixelData[index++] = pixel.r;
-				pixelData[index++] = pixel.g;
-				pixelData[index++] = pixel.b;
-			}
-		}
-	}
-
-	void Image::drawLineLow(const int x0, const int y0, const int x1, const int y1, const RGB &rgb)
+	void MigImage::drawLineLow(const int x0, const int y0, const int x1, const int y1, const RGB &rgb)
 	{
 		auto dx = x1 - x0;
 		auto dy = y1 - y0;
@@ -211,7 +135,7 @@ namespace MIG
 		}
 	}
 
-	void Image::drawLineHigh(const int x0, const int y0, const int x1, const int y1, const RGB &rgb)
+	void MigImage::drawLineHigh(const int x0, const int y0, const int x1, const int y1, const RGB &rgb)
 	{
 		auto dx = x1 - x0;
 		auto dy = y1 - y0;
@@ -232,6 +156,93 @@ namespace MIG
 				d -= 2 * dy;
 			}
 			d += 2 * dx;
+		}
+	}
+	
+	bool MigImage::isValid(const XY &xy) const
+	{
+		return isValid(xy.x, xy.y);
+	}
+
+	bool MigImage::isValid(const int x, const int y) const
+	{
+		return (x >= 0 && x < _width && y >= 0 && y < _height);
+	}
+
+	void MigImage::writeToPPM(const std::string &filename) const
+	{
+		std::ofstream outputFile;
+		outputFile.open(filename.c_str());
+
+		if (outputFile) {
+			std::ostringstream header;
+			header << "P3 " << _width << " " << _height << " 255 "; // PPM image header
+			outputFile << header.str();
+
+			const size_t bufsize = 128;
+			char buf[bufsize];
+
+			for (int y = 0; y < _height; ++y) {
+				std::ostringstream row;
+
+				for (int x = 0; x < _width; ++x) {
+					const auto &pixel = _pixels[calculateIndex(x, y)];
+
+					memset(buf, 0, bufsize);
+					snprintf(buf, bufsize, "%d %d %d ", pixel.r, pixel.g, pixel.b);
+
+					row << buf;
+				}
+
+				row << '\n';
+
+				outputFile << row.str();
+			}
+
+			outputFile.flush();
+			outputFile.close();
+		}
+	}
+
+	void MigImage::writeToBMP(const std::string &filename) const
+	{
+		const size_t pixelDataLength = _width * _height * RGB::comp;
+		unsigned char *pixelData = new unsigned char[pixelDataLength];
+		copyRgbPixelsTo(pixelData);
+
+		stbi_write_bmp(filename.c_str(), _width, _height, RGB::comp, pixelData);
+
+		delete[] pixelData;
+	}
+
+	void MigImage::writeToPNG(const std::string &filename) const
+	{
+		const size_t pixelDataLength = _width * _height * RGB::comp;
+		unsigned char *pixelData = new unsigned char[pixelDataLength];
+		copyRgbPixelsTo(pixelData);
+
+		const int strideInBytes = _width * RGB::comp;
+
+		stbi_write_png(filename.c_str(), _width, _height, RGB::comp, pixelData, strideInBytes);
+
+		delete[] pixelData;
+	}
+
+	size_t MigImage::calculateIndex(const int x, const int y) const
+	{
+		return size_t(_width) * size_t(y) + size_t(x);
+	}
+
+	void MigImage::copyRgbPixelsTo(unsigned char *pixelData) const
+	{
+		size_t index = 0;
+		for (int y = 0; y < _height; ++y) {
+			for (int x = 0; x < _width; ++x) {
+				const auto &pixel = _pixels[calculateIndex(x, y)];
+				pixelData[index++] = pixel.r;
+				pixelData[index++] = pixel.g;
+				pixelData[index++] = pixel.b;
+			}
 		}
 	}
 
