@@ -18,7 +18,7 @@ namespace MIG
 			return sqrt(squaredNorm(x, y));
 		}
 
-		int squaredNorm(const int x, const int y)
+		int squaredNorm(const int x, const int y) noexcept
 		{
 			return (x * x + y * y);
 		}

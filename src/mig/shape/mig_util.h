@@ -10,7 +10,7 @@ namespace MIG
 	{
 		double distance(const XY &a, const XY &b);
 		double norm(const int x, const int y);
-		int squaredNorm(const int x, const int y);
+		int squaredNorm(const int x, const int y) noexcept;
 	}
 }
 

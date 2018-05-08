@@ -16,14 +16,14 @@ namespace MIG
 		MigImage() = delete;
 		MigImage(const int width, const int height);
 
-		int getWidth() const;
-		int getHeight() const;
+		int getWidth() const noexcept;
+		int getHeight() const noexcept;
 
 		void drawPixel(const XY &xy, const RGB &rgb);
 		void drawPixel(const int x, const int y, const unsigned char red, const unsigned char green, const unsigned char blue);
 
-		bool isValid(const XY &xy) const;
-		bool isValid(const int x, const int y) const;
+		bool isValid(const XY &xy) const noexcept;
+		bool isValid(const int x, const int y) const noexcept;
 
 		void writeToPPM(const std::string &filename) const;
 		void writeToBMP(const std::string &filename) const;
@@ -34,7 +34,7 @@ namespace MIG
 		const int _height;
 		std::unique_ptr<RGB[]> _pixels;
 
-		size_t calculateIndex(const int x, const int y) const;
+		size_t calculateIndex(const int x, const int y) const noexcept;
 
 		void copyRgbPixelsTo(std::unique_ptr<unsigned char[]> &pixelData) const;
 	};

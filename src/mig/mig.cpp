@@ -28,12 +28,12 @@ namespace MIG
 		}
 	}
 
-	int MigImage::getWidth() const
+	int MigImage::getWidth() const noexcept
 	{
 		return _width;
 	}
 
-	int MigImage::getHeight() const
+	int MigImage::getHeight() const noexcept
 	{
 		return _height;
 	}
@@ -52,12 +52,12 @@ namespace MIG
 		pixel.b = blue;
 	}
 
-	bool MigImage::isValid(const XY &xy) const
+	bool MigImage::isValid(const XY &xy) const noexcept
 	{
 		return isValid(xy.x, xy.y);
 	}
 
-	bool MigImage::isValid(const int x, const int y) const
+	bool MigImage::isValid(const int x, const int y) const noexcept
 	{
 		return (x >= 0 && x < _width && y >= 0 && y < _height);
 	}
@@ -117,7 +117,7 @@ namespace MIG
 		stbi_write_png(filename.c_str(), _width, _height, RGB::comp, pixelData.get(), strideInBytes);
 	}
 
-	size_t MigImage::calculateIndex(const int x, const int y) const
+	size_t MigImage::calculateIndex(const int x, const int y) const noexcept
 	{
 		return size_t(_width) * size_t(y) + size_t(x);
 	}
