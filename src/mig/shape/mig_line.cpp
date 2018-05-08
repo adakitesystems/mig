@@ -53,12 +53,12 @@ namespace MIG
 			for (int x = x0; x <= x1; ++x) {
 				if (migImage.isValid(x, y)) {
 					migImage.drawPixel(x, y, rgb.r, rgb.g, rgb.b);
-					if (d > 0) {
-						y += yi;
-						d -= 2 * dx;
-					}
-					d += 2 * dy;
 				}
+				if (d > 0) {
+					y += yi;
+					d -= 2 * dx;
+				}
+				d += 2 * dy;
 			}
 		}
 
@@ -79,12 +79,12 @@ namespace MIG
 			for (int y = y0; y <= y1; ++y) {
 				if (migImage.isValid(x, y)) {
 					migImage.drawPixel(x, y, rgb.r, rgb.g, rgb.b);
-					if (d > 0) {
-						x += xi;
-						d -= 2 * dy;
-					}
-					d += 2 * dx;
 				}
+				if (d > 0) {
+					x += xi;
+					d -= 2 * dy;
+				}
+				d += 2 * dx;
 			}
 		}
 	}
