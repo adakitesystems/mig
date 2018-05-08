@@ -7,13 +7,30 @@
 #include <fstream>
 #include <sstream>
 
+#ifndef STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
+#endif
+
+#if defined(_MSC_VER) || defined(MSCV) || defined(_MSCV)
+
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#ifndef STBI_MSC_SECURE_CRT
+#define STBI_MSC_SECURE_CRT
+#endif
+
+#endif
 
 #include "../stb_image/stb_image_write.h"
 
 namespace MIG
 {
-
 	MigImage::MigImage(const int width, const int height)
 		: _width(width)
 		, _height(height)
