@@ -15,14 +15,14 @@ namespace MIG
 		public:
 			enum class FillStyle { NONE, SOLID };
 
-			Rectangle(const XY &topLeft = XY(0, 0), const int width = 0, const int height = 0, const RGB &rgb = RGB(0, 0, 0), const FillStyle fillStyle = FillStyle::NONE);
+			Rectangle(const XY &topLeft = XY(0, 0), const int width = 0, const int height = 0, const RgbPixel &rgb = RgbPixel(0, 0, 0), const FillStyle fillStyle = FillStyle::NONE);
 
 			virtual void drawTo(MigImage &migImage) override;
 
 			XY topLeft;
 			int width;
 			int height;
-			RGB rgb;
+			RgbPixel rgb;
 			FillStyle fillStyle;
 		};
 	}

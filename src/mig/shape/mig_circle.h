@@ -15,13 +15,13 @@ namespace MIG
 		public:
 			enum class FillStyle { NONE, SOLID };
 
-			Circle(const XY &center = XY(0, 0), const int radius = 0, const RGB &rgb = RGB(0, 0, 0), const FillStyle fillStyle = FillStyle::NONE);
+			Circle(const XY &center = XY(0, 0), const int radius = 0, const RgbPixel &rgb = RgbPixel(0, 0, 0), const FillStyle fillStyle = FillStyle::NONE);
 
 			virtual void drawTo(MigImage &migImage) override;
 
 			XY center;
 			int radius;
-			RGB rgb;
+			RgbPixel rgb;
 			FillStyle fillStyle;
 		};
 	}

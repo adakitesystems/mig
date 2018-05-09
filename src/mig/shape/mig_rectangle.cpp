@@ -4,7 +4,7 @@ namespace MIG
 {
 	namespace Shape
 	{
-		Rectangle::Rectangle(const XY &newTopLeft, const int newWidth, const int newHeight, const RGB &newRgb, const FillStyle newFillStyle)
+		Rectangle::Rectangle(const XY &newTopLeft, const int newWidth, const int newHeight, const RgbPixel &newRgb, const FillStyle newFillStyle)
 			: topLeft(newTopLeft)
 			, width(newWidth)
 			, height(newHeight)

@@ -13,13 +13,13 @@ namespace MIG
 		class Line : public ShapeInterface
 		{
 		public:
-			Line(const XY &a = XY(0, 0), const XY &b = XY(0, 0), const RGB &rgb = RGB(0, 0, 0));
+			Line(const XY &a = XY(0, 0), const XY &b = XY(0, 0), const RgbPixel &rgb = RgbPixel(0, 0, 0));
 
 			virtual void drawTo(MigImage &migImage) override;
 
 			XY a;
 			XY b;
-			RGB rgb;
+			RgbPixel rgb;
 
 		private:
 			void drawLineLow(MigImage &migImage, const int x0, const int y0, const int x1, const int y1);

@@ -4,7 +4,7 @@
 
 namespace MIG
 {
-	struct RGB
+	struct RgbPixel
 	{
 		static const unsigned char comp = 3;
 
@@ -12,8 +12,8 @@ namespace MIG
 		unsigned char g;
 		unsigned char b;
 
-		RGB() : r(0), g(0), b(0) {}
-		RGB(const unsigned char red, const unsigned char green, const unsigned char blue) : r(red), g(green), b(blue) {}
+		RgbPixel() : r(0), g(0), b(0) {}
+		RgbPixel(const unsigned char red, const unsigned char green, const unsigned char blue) : r(red), g(green), b(blue) {}
 	};
 }
 

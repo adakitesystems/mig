@@ -19,7 +19,7 @@ namespace MIG
 		int getWidth() const noexcept;
 		int getHeight() const noexcept;
 
-		void drawPixel(const XY &xy, const RGB &rgb);
+		void drawPixel(const XY &xy, const RgbPixel &rgb);
 		void drawPixel(const int x, const int y, const unsigned char red, const unsigned char green, const unsigned char blue);
 
 		bool isValid(const XY &xy) const noexcept;
@@ -32,7 +32,7 @@ namespace MIG
 	private:
 		const int _width;
 		const int _height;
-		std::unique_ptr<RGB[]> _pixels;
+		std::unique_ptr<RgbPixel[]> _pixels;
 
 		size_t calculateIndex(const int x, const int y) const noexcept;
 

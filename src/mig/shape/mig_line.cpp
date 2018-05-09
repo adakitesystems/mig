@@ -4,7 +4,7 @@ namespace MIG
 {
 	namespace Shape
 	{
-		Line::Line(const XY &newA, const XY &newB, const RGB &newRgb)
+		Line::Line(const XY &newA, const XY &newB, const RgbPixel &newRgb)
 			: a(newA)
 			, b(newB)
 			, rgb(newRgb)

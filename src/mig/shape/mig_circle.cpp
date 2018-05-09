@@ -6,7 +6,7 @@ namespace MIG
 {
 	namespace Shape
 	{
-		Circle::Circle(const XY &newCenter, const int newRadius, const RGB &newRgb, const FillStyle newFillStyle)
+		Circle::Circle(const XY &newCenter, const int newRadius, const RgbPixel &newRgb, const FillStyle newFillStyle)
 			: center(newCenter)
 			, radius(newRadius)
 			, rgb(newRgb)
