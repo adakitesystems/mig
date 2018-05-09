@@ -82,34 +82,37 @@ namespace MIG
 		std::ofstream outputFile;
 		outputFile.open(filename.c_str());
 
-		if (outputFile) {
-			std::ostringstream header;
-			header << "P3 " << _width << " " << _height << " 255 "; // PPM image header
-			outputFile << header.str();
+		if (!outputFile) {
+			outputFile.close();
+			return;
+		}
 
-			const size_t bufsize = 128;
-			char buf[bufsize];
+		std::ostringstream header;
+		header << "P3 " << _width << " " << _height << " 255 ";
+		outputFile << header.str();
 
-			for (int y = 0; y < _height; ++y) {
-				std::ostringstream row;
+		const size_t bufsize = 128;
+		char buf[bufsize];
 
-				for (int x = 0; x < _width; ++x) {
-					const auto &pixel = _pixels[calculateIndex(x, y)];
+		for (int y = 0; y < _height; ++y) {
+			std::ostringstream row;
 
-					memset(buf, 0, bufsize);
-					snprintf(buf, bufsize, "%d %d %d ", pixel.r, pixel.g, pixel.b);
+			for (int x = 0; x < _width; ++x) {
+				const auto &pixel = _pixels[calculateIndex(x, y)];
 
-					row << buf;
-				}
+				memset(buf, 0, bufsize);
+				snprintf(buf, bufsize, "%d %d %d ", pixel.r, pixel.g, pixel.b);
 
-				row << '\n';
-
-				outputFile << row.str();
+				row << buf;
 			}
 
-			outputFile.flush();
-			outputFile.close();
+			row << '\n';
+
+			outputFile << row.str();
 		}
+
+		outputFile.flush();
+		outputFile.close();
 	}
 
 	void MigImage::writeToBMP(const std::string &filename) const
